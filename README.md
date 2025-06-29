@@ -37,9 +37,6 @@ Quantium_Chips_Project/
 ├── README.md # ✅ This file
 ├── .gitignore
 
-yaml
-Copy
-Edit
 
 ---
 
@@ -68,8 +65,6 @@ Edit
    git clone https://github.com/spriyanshi180/Quantium-Chips-Analysis.git
 Open RStudio and load the .Rproj file or directly open:
 
-Copy
-Edit
 scripts/R_solution_template.Rmd
 Run each code chunk or knit the file to HTML/PDF to generate the output visualizations and data summaries.
 
@@ -83,11 +78,8 @@ pack_size_plot.pdf	Line chart of pack size preferences
 
 💡 Recommendations
 📣 Focus marketing on Young Singles/Couples and Budget Older Families.
-
 📦 Promote 175g pack sizes for mainstream and budget segments.
-
 🛍️ Offer premium brand bundles to high-spending segments.
-
 📨 Use loyalty programs to target top-performing segments with personalized offers.
 
 🤝 Acknowledgements
@@ -97,9 +89,6 @@ This project is based on Quantium's retail data challenge, offering real-world d
 Priyanshi Singh
 GitHub: spriyanshi180
 
-yaml
-Copy
-Edit
 
 ---
 
