@@ -1,3 +1,31 @@
+# 🥔 Quantium Chips Analysis
+**Author:** Priyanshi Singh  
+**Date:** June 2025
+
+This project analyzes customer purchasing behavior of chips to help Quantium’s category manager make data-driven decisions.
+
+---
+
+## 📊 Project Overview
+
+We explore:
+- Which customer segments buy the most chips
+- Average spend per segment
+- Popular chip brands
+- Preferred pack sizes
+
+---
+
+## 📁 Folder Structure
+
+Quantium_Chips_Project/
+│
+├── data/ # CSV files: transactions & customer data
+├── scripts/ # R Markdown scripts & outputs
+│ ├── output/ # Cleaned datasets & summaries
+├── chips_trial_analysis/ # R project environment files
+├── README.md # ✅ You're here!
+├── .gitignore
 
 ---
 
