@@ -1,0 +1,10 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/1323873/4108210c2f2a4c4dadee184660bf975a
+bundleId: https://api.rpubs.com/api/v1/document/1323873/4108210c2f2a4c4dadee184660bf975a
+url: http://rpubs.com/spriyanshi180/1323873
+version: 1

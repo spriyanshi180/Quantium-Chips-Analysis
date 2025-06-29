@@ -1,0 +1,9 @@
+# R / RStudio
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# Windows rubbish
+Thumbs.db
+Desktop.ini

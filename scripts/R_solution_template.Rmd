@@ -1,0 +1,172 @@
+---
+title: "Quantium Chips Analysis"
+author: "Priyanshi Singh"
+date: "2025-06-19"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(here)
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+## Introduction
+
+This analysis explores customer segments and chip purchasing behavior to support a strategic recommendation for the Category Manager. We aim to understand which segments purchase the most chips, how much they spend, and their product preferences.
+
+## Load and Preview Data
+
+```{r load-data}
+# Load data
+transactions <- read_csv(here("..", "data", "QVI_transaction_data.csv"))
+customers <- read_csv(here("..", "data", "QVI_purchase_behaviour.csv"))
+
+# Preview
+glimpse(transactions)
+glimpse(customers)
+
+```
+
+## Data Cleaning
+
+```{r cleaning}
+# Convert date
+transactions$DATE <- as.Date(transactions$DATE)
+
+# Remove outliers (optional threshold)
+transactions <- transactions %>%
+  filter(PROD_QTY > 0, PROD_QTY < 100)
+  
+# Check missing values
+colSums(is.na(transactions))
+colSums(is.na(customers))
+```
+
+## Feature Engineering (Brand & Pack Size)
+
+```{r features}
+# Brand is the first word in PROD_NAME
+transactions <- transactions %>%
+  mutate(BRAND = word(PROD_NAME, 1),
+         PACK_SIZE = parse_number(PROD_NAME))
+
+# Check top brands
+transactions %>% count(BRAND, sort = TRUE)
+```
+## Merge with Customer Data
+
+```{r merge}
+data_combined <- merge(transactions, customers, by = "LYLTY_CARD_NBR")
+glimpse(data_combined)
+```
+
+## Customer Segment Analysis
+
+```{r segment-analysis}
+segment_summary <- data_combined %>%
+  group_by(LIFESTAGE, PREMIUM_CUSTOMER) %>%
+  summarise(
+    total_sales = sum(TOT_SALES),
+    avg_price = mean(TOT_SALES / PROD_QTY),
+    transaction_count = n()
+  ) %>%
+  arrange(desc(total_sales))
+
+segment_summary
+
+segment_summary$LIFESTAGE <- factor(segment_summary$LIFESTAGE, levels = c(
+  "YOUNG SINGLES/COUPLES", "MIDAGE SINGLES/COUPLES", "YOUNG FAMILIES", 
+  "OLDER FAMILIES", "RETIREES", "NEW FAMILIES", "OLDER SINGLES/COUPLES"
+))
+```
+
+## Visualization: Total Sales by Segment
+
+```{r sales-plot}
+ggplot(segment_summary, aes(x = LIFESTAGE, y = total_sales, fill = PREMIUM_CUSTOMER)) +
+  geom_col(position = "dodge") +
+  labs(title = "Total Chip Sales by Customer Segment", y = "Total Sales ($)", x = "Customer Lifestage") +
+  theme_minimal() + theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
+```
+
+##️ Top Brands by Customer Segment
+
+```{r top-brands}
+top_brands <- data_combined %>%
+  group_by(LIFESTAGE, PREMIUM_CUSTOMER, BRAND) %>%
+  summarise(total_sales = sum(TOT_SALES)) %>%
+  arrange(LIFESTAGE, PREMIUM_CUSTOMER, desc(total_sales)) %>%
+  group_by(LIFESTAGE, PREMIUM_CUSTOMER) %>%
+  slice_max(total_sales, n = 3)
+
+top_brands
+```
+
+```{r top-brands-plot}
+ggplot(top_brands, aes(x = reorder(BRAND, total_sales), y = total_sales, fill = BRAND)) +
+  geom_col(show.legend = FALSE) +
+  facet_grid(rows = vars(LIFESTAGE), cols = vars(PREMIUM_CUSTOMER), scales = "free") +
+  coord_flip() +
+  labs(title = "Top Brands per Segment", x = "Brand", y = "Sales") +
+  theme_minimal() +
+  theme(
+    strip.text = element_text(size = 10),
+    axis.text.x = element_text(size = 8),
+    axis.text.y = element_text(size = 8)
+  )
+
+```
+
+## 📦 Pack Size Preferences
+
+```{r pack-size}
+pack_size_summary <- data_combined %>%
+  group_by(LIFESTAGE, PREMIUM_CUSTOMER, PACK_SIZE) %>%
+  summarise(
+    total_sales = sum(TOT_SALES),
+    transactions = n()
+  ) %>%
+  arrange(desc(total_sales))
+
+pack_size_summary %>% head(12)
+```
+
+```{r pack-size-plot}
+ggplot(pack_size_summary, aes(x = PACK_SIZE, y = total_sales, color = PREMIUM_CUSTOMER)) +
+  geom_line() +
+  facet_wrap(~LIFESTAGE, scales = "free_y", ncol = 1) +  # Make one column vertically
+  labs(title = "Sales by Pack Size", x = "Pack Size (g)", y = "Sales") +
+  theme_minimal() +
+  theme(
+    strip.text = element_text(size = 10),
+    
+    
+    axis.text = element_text(size = 8)
+  )
+
+```
+
+## 💼 Strategic Recommendations for Julia
+
+Based on our insights:
+
+- ✅ Focus on **Young Singles/Couples** and **Mainstream Midage** as they drive highest sales.
+- ✅ Promote **larger pack sizes** and premium brands to segments that spend more per transaction.
+- ✅ Use loyalty program data to promote **top 3 brands** per segment via email offers.
+- ✅ Avoid low-volume brands for budget-conscious lifestages.
+
+## 💾 Export Summary Data (Optional)
+
+```{r export}
+write_csv(segment_summary, "output/segment_summary.csv")
+write_csv(pack_size_summary, "output/pack_size_summary.csv")
+write_csv(data_combined, "output/cleaned_data.csv")
+```
+
+## Conclusion
+
+This report summarizes key insights on customer behavior and chip sales. It enables data-driven targeting of high-value segments, tailoring of product offerings, and strategic promotional planning.

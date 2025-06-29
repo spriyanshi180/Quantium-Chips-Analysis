@@ -1,0 +1,47 @@
+---
+title: "Quantium_Task2_Trial_Store_Analysis_PriyanshiSingh"
+author: "Priyanshi"
+date: "2025-06-21"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+library(gridExtra)
+library(scales)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# **Data Preparation:**
+
+## Load and clean data:
+
+```{r Load and clean data}
+QVI_data <- read.csv("QVI_data.csv")
+
+# Convert DATE to Date format
+QVI_data$DATE <- as.Date(QVI_data$DATE)
+
+# Create new variables
+QVI_data$MONTH <- format(QVI_data$DATE, "%Y-%m")
+
+```
+
+## Aggregate data monthly per store:
+
+```{r Aggregate data monthly per store}
+monthly_metrics <- QVI_data %>%
+  group_by(STORE_NBR, MONTH) %>%
+  summarise(
+    total_sales = sum(TOT_SALES),
+    n_customers = n_distinct(LYLTY_CARD_NBR),
+    avg_txn_per_cust = n() / n_distinct(LYLTY_CARD_NBR)
+  )
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
