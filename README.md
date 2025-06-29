@@ -88,15 +88,15 @@ Run each code chunk or knit the file to HTML/PDF to generate the output visualiz
 
 File	Description
 
-segment_summary.csv	Summary of total sales and average prices by customer segment
+segment_summary.csv	: Summary of total sales and average prices by customer segment
 
-pack_size_summary.csv	Chip sales by pack size per segment
+pack_size_summary.csv  :	Chip sales by pack size per segment
 
-cleaned_data.csv	Merged and cleaned transaction-customer dataset
+cleaned_data.csv	:  Merged and cleaned transaction-customer dataset
 
-top_brands_per_segment.pdf	Visualization of top 3 brands for each segment
+top_brands_per_segment.pdf	 :  Visualization of top 3 brands for each segment
 
-pack_size_plot.pdf	Line chart of pack size preferences
+pack_size_plot.pdf	:  Line chart of pack size preferences
 
 💡 Recommendations
 
@@ -114,7 +114,9 @@ pack_size_plot.pdf	Line chart of pack size preferences
 This project is based on Quantium's retail data challenge, offering real-world data analytics experience in consumer insights.
 
 📬 Contact
+
 Priyanshi Singh
+
 GitHub: spriyanshi180
 
 
