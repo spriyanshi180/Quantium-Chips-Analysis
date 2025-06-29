@@ -20,21 +20,37 @@ We explore and analyze:
 ## 📁 Folder Structure
 
 Quantium_Chips_Project/
+
 │
+
 ├── data/ # Raw input datasets (CSV files)
+
 │ ├── QVI_purchase_behaviour.csv
+
 │ └── QVI_transaction_data.csv
+
 │
+
 ├── scripts/ # Main RMarkdown scripts and outputs
+
 │ ├── R_solution_template.Rmd
+
 │ ├── R_solution_template.html/pdf
+
 │ ├── output/
+
 │ ├── cleaned_data.csv
+
 │ ├── segment_summary.csv
+
 │ └── pack_size_summary.csv
+
 │
+
 ├── chips_trial_analysis/ # Optional R project environment files
+
 ├── README.md # ✅ This file
+
 ├── .gitignore
 
 
@@ -73,9 +89,13 @@ Run each code chunk or knit the file to HTML/PDF to generate the output visualiz
 File	Description
 
 segment_summary.csv	Summary of total sales and average prices by customer segment
+
 pack_size_summary.csv	Chip sales by pack size per segment
+
 cleaned_data.csv	Merged and cleaned transaction-customer dataset
+
 top_brands_per_segment.pdf	Visualization of top 3 brands for each segment
+
 pack_size_plot.pdf	Line chart of pack size preferences
 
 💡 Recommendations
